@@ -8,7 +8,7 @@ struct PROCESS			// PROCESS structure
 {
 	string process;		// process ID
 	int arrival;		// process Arrival Time
-	int burst;			// process CPU Burst Time
+	int burst;		// process CPU Burst Time
 	int completion;		// process Completion Time
 	int turnaround;		// process Turn Around Time
 	int waiting;		// process Waiting Time
@@ -30,9 +30,9 @@ int main()
 	int total_tat=0, total_wt=0;
 
 	struct PROCESS p[] = {{"1",0,10}, {"2",1,5}, {"3",2,8}};		//creates process pool
-	n = sizeof(p)/sizeof(p[0]);										// calculates no. of processes
+	n = sizeof(p)/sizeof(p[0]);						// calculates no. of processes
 
-	sort(p, p+n, compare);											// sorts PROCESS structure
+	sort(p, p+n, compare);			// sorts PROCESS structure
 
 	// initial values
 	p[0].completion = p[0].burst + p[0].arrival;
@@ -71,10 +71,10 @@ int main()
 	cout<<"PROCESS\t BURST TIME\t ARRIVAL TIME\t WAITING TIME\t TURN AROUND TIME"<<endl;
 	for(i=0;i<n;i++)				//display loop
 	{
-		total_wt += p[i].waiting;				//total WT
+		total_wt += p[i].waiting;			//total WT
 		total_tat += p[i].turnaround;			//total TAT
-		cout<<" "<<p[i].process;				//process ID[i]
-		cout<<"\t  "<<p[i].burst;				//CPU burst time[i]
+		cout<<" "<<p[i].process;			//process ID[i]
+		cout<<"\t  "<<p[i].burst;			//CPU burst time[i]
 		cout<<"\t\t  "<<p[i].arrival;			//arrival time[i]
 		cout<<"\t\t  "<<p[i].waiting;			//WT[i]
 		cout<<"\t\t  "<<p[i].turnaround;		//TAT[i]
@@ -83,8 +83,8 @@ int main()
 	
 	
 	float avt, avw;						
-	avt = (float)total_tat/(float)n;				//average TAT
-	avw = (float)total_wt/(float)n;					//average WT
+	avt = (float)total_tat/(float)n;		//average TAT
+	avw = (float)total_wt/(float)n;			//average WT
 	cout<<"\n Average Waitng Time : "<<avw;
 	cout<<"\n Average Turn Around Time : "<<avt;
 	
