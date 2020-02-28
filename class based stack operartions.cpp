@@ -9,7 +9,8 @@ using namespace std;
 class STACK
 {	
 	private:	class NODE
-			{	public:	int info;
+			{	
+				public:	int info;
 					NODE *link;
 					NODE(int a=-1);
 			};
