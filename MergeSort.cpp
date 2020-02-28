@@ -4,26 +4,24 @@ using namespace std;
 
 class MS
 {
-	private :
-		int *a;
-		int size;
-		int ub, lb;
+	private :	int *a;
+			int size;
+			int ub, lb;
 	
-	public :
-		MS(int n)
-		{
-			size = n;
-			a = new int[n];
-			input();
-			ub = size;
-			lb = 0;
-			mergesort(a, lb, ub);
-		};
+	public :	MS(int n)
+			{
+				size = n;
+				a = new int[n];
+				input();
+				ub = size;
+				lb = 0;
+				mergesort(a, lb, ub);
+			};
 		
-		void input();
-		void mergesort(int a[], int lb, int ub);
-		void merge(int a[], int lb, int mid, int ub);
-		void display();
+			void input();
+			void mergesort(int a[], int lb, int ub);
+			void merge(int a[], int lb, int mid, int ub);
+			void display();
 };
 
 void MS :: input()
