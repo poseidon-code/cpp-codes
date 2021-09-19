@@ -1,7 +1,13 @@
+// last commit : TIME="2021-09-19T12:00:00 +0530" GIT_AUTHOR_DATE="$TIME" GIT_COMMITTER_DATE="$TIME" git commit -m "fix: sleep()"
+
+
 #include<iostream>	//basic I/O operations
 #include<iomanip>	//for setw()
 #include<stdlib.h>	//for system("cls")
+#include<unistd.h>  //for usleep()
+#if defined(_WIN32) || defined(_WIN64)
 #include<windows.h>	//for Sleep()
+#endif
 
 using namespace std;
 
@@ -28,6 +34,14 @@ class LIST
 			void display();
 				
 };
+
+void sleep(int time) {
+	#if defined(_WIN32) || defined(_WIN64)
+	Sleep(time);
+	#else
+	usleep(time*1000);
+	#endif
+}
 
 //NODE class: parameterised constructor
 LIST::NODE::NODE(int a)
@@ -86,7 +100,7 @@ void LIST::insert_beg()
 	q->link = pnode->link;
 	pnode->link = q;
 	cout<<"\n\n . . . NODE INSERTED"<<endl;
-	Sleep(2000);
+	sleep(2000);
 }
 
 
@@ -104,7 +118,7 @@ void LIST::insert_specific()
 		if(hnode->link == NULL)
 		{	
 			cout<<"\n\n !! LIST IS EMPTY !!";
-			Sleep(1000);
+			sleep(1000);
 			break;
 		}
 		else
@@ -129,13 +143,13 @@ void LIST::insert_specific()
 				else if(p == 0)
 				{	
 					cout<<"\n !! POSITION CANNOT BE ZERO !!";
-					Sleep(500);						
+					sleep(500);						
 					continue;
 				}
 				else if(p>c)
 				{	
 					cout<<"\n !! POSITION NOT AVAILABLE !!";
-					Sleep(500);
+					sleep(500);
 					continue;
 				}
 				else
@@ -148,7 +162,7 @@ void LIST::insert_specific()
 					ptr->link = temp->link;
 					temp->link = ptr;
 					cout<<"\n\n . . . NODE INSERTED";
-					Sleep(2000);
+					sleep(2000);
 					break;
 				}
 			}
@@ -171,7 +185,7 @@ void LIST::insert_end()
 		pnode = pnode->link;
 	pnode->link = q;
 	cout<<"\n\n . . . NODE INSERTED";
-	Sleep(2000);
+	sleep(2000);
 }
 
 
@@ -183,7 +197,7 @@ void LIST::delete_beg()
 	if(hnode->link == NULL)
 	{	
 		cout<<"\n\nList is empty ! DELETION NOT POSSIBLE !";
-		Sleep(1000);
+		sleep(1000);
 	}
 	else
 	{	
@@ -192,7 +206,7 @@ void LIST::delete_beg()
 		hnode->link =pnode;
 		delete dnode;
 		cout<<"\n\n . . . NODE DELETED";
-		Sleep(2000);
+		sleep(2000);
 	}
 }
 
@@ -211,7 +225,7 @@ void LIST::delete_specific()
 		if(hnode->link == NULL)
 		{	
 			cout<<"\n\nList is empty ! DELETION NOT POSSIBLE !";
-			Sleep(1000);
+			sleep(1000);
 			break;
 		}
 		else
@@ -236,13 +250,13 @@ void LIST::delete_specific()
 				else if(p == 0)
 				{	
 					cout<<"\n !! POSITION CANNOT BE ZERO !!";
-					Sleep(500);						
+					sleep(500);						
 					continue;
 				}
 				else if(p>c)
 				{	
 					cout<<"\n !! POSITION NOT AVAILABLE !!";
-					Sleep(500);
+					sleep(500);
 					continue;
 				}
 				else if(p==c)
@@ -260,7 +274,7 @@ void LIST::delete_specific()
 					ptr->link = temp->link;
 					delete temp;
 					cout<<"\n\n . . . NODE DELETED";
-					Sleep(2000);
+					sleep(2000);
 					break;
 				}
 			}
@@ -278,7 +292,7 @@ void LIST::delete_end()
 	if(hnode->link == NULL)
 	{	
 		cout<<"\n\nList is empty ! DELETION NOT POSSIBLE !";
-		Sleep(1000);
+		sleep(1000);
 	}
 	else
 	{	
@@ -290,7 +304,7 @@ void LIST::delete_end()
 		delete dnode;
 		pnode->link = NULL;
 		cout<<"\n\n . . . NODE DELETED";
-		Sleep(2000);
+		sleep(2000);
 	}
 }
 
@@ -329,7 +343,7 @@ int main()
 	a.create();
 	system("cls");
 	cout<<"! LIST CREATION COMPLETED !";
-	Sleep(2000);
+	sleep(2000);
 	do
 	{	
 		system("cls");
@@ -378,9 +392,9 @@ int main()
 					else
 					{	
 						cout<<"\n! INVALID INPUT !";
-						Sleep(500);
+						sleep(500);
 						cout<<"\n choose again !";
-						Sleep(1000);
+						sleep(1000);
 						continue;
 					}
 				}while(inso!=1||inso!=2||inso!=3);
@@ -420,9 +434,9 @@ int main()
 					else
 					{	
 						cout<<"\n! INVALID INPUT !";
-						Sleep(500);
+						sleep(500);
 						cout<<"\n choose again !";
-						Sleep(1000);
+						sleep(1000);
 						continue;
 					}
 				}while(delo!=1||delo!=2||delo!=3);
@@ -455,7 +469,7 @@ int main()
 				exit(0);
 			
 			default:cout<<"\n INVALID INPUT !!";
-				Sleep(500);
+				sleep(500);
 				continue;
 		}
 	}while(ch!=0);
