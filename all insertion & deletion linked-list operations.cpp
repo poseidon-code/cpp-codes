@@ -1,6 +1,3 @@
-// last commit : TIME="2021-09-19T12:00:00 +0530" GIT_AUTHOR_DATE="$TIME" GIT_COMMITTER_DATE="$TIME" git commit -m "fix: sleep()"
-
-
 #include<iostream>	//basic I/O operations
 #include<iomanip>	//for setw()
 #include<stdlib.h>	//for system("cls")
