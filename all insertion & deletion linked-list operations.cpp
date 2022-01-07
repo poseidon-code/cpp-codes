@@ -2,77 +2,69 @@
 #include<iomanip>	//for setw()
 #include<stdlib.h>	//for system("cls")
 #include<unistd.h>  //for usleep()
+
 #if defined(_WIN32) || defined(_WIN64)
-#include<windows.h>	//for Sleep()
+	#include<windows.h>	//for Sleep()
 #endif
 
 using namespace std;
 
 //linked list CLASS
-class LIST
-{	
-	private:	class NODE
-			{	
-				public:	int info;
-					NODE *link;
-					NODE(int a=-1);
-					~NODE();
-			};
+class LIST {	
+	private:	
+		class NODE {	
+			public:	int info;
+				NODE *link;
+				NODE(int a=-1);
+				~NODE();
+		};
 	
- 	public:		NODE *hnode;
-			LIST();
-			void create();
-			void insert_beg();
-			void insert_specific();
-			void insert_end();
- 			void delete_beg();
-			void delete_specific();
-			void delete_end();
-			void display();
-				
+ 	public:
+		NODE *hnode;
+		LIST();
+		void create();
+		void insert_beg();
+		void insert_specific();
+		void insert_end();
+		void delete_beg();
+		void delete_specific();
+		void delete_end();
+		void display();
 };
 
 void sleep(int time) {
 	#if defined(_WIN32) || defined(_WIN64)
-	Sleep(time);
+		Sleep(time);
 	#else
-	usleep(time*1000);
+		usleep(time*1000);
 	#endif
 }
 
 //NODE class: parameterised constructor
-LIST::NODE::NODE(int a)
-{	
+LIST::NODE::NODE(int a) {	
 	info = a;
 	link = NULL;
 }
 
 //NODE class: destructor
-LIST::NODE::~NODE()
-{ }
+LIST::NODE::~NODE() {}
 
 //LIST class: constructor
-LIST::LIST()
-{	
-	hnode = new NODE;
-}
+LIST::LIST() { hnode = new NODE; }
 
 
 
 //1st LIST creation function
-void LIST::create()
-{	
+void LIST::create() {	
 	NODE *pnode = hnode;
 	char choice;
 	int val;
-	while(1)
-	{	
+	while(1) {	
 		cout<<"\nInsert node ?? (y/n)";
 		cin>>choice;
 		if(choice == 'n')
 			break;	
-		else if(choice =='y')
-		{	
+		else if(choice =='y') {	
 			cout<<"Enter INFO part of node : ";
 			cin>>val;
 			NODE *q = new NODE(val);
