@@ -78,8 +78,7 @@ void LIST::create() {
 
 
 //inserting at BEGINNING of LIST
-void LIST::insert_beg()
-{	
+void LIST::insert_beg() {	
 	NODE *q;
 	NODE *pnode = hnode;
 	int val;
@@ -94,55 +93,44 @@ void LIST::insert_beg()
 
 
 //inserting at SPECIFIED POSITION of LIST
-void LIST::insert_specific()
-{	
+void LIST::insert_specific() {
 	NODE *ptr;
 	NODE *temp;
 	int c=1;
 	int p;
 	int i;
 	int val;
-	while(1)
-	{	
-		if(hnode->link == NULL)
-		{	
+
+	while(1) {	
+		if(hnode->link == NULL) {	
 			cout<<"\n\n !! LIST IS EMPTY !!";
 			sleep(1000);
 			break;
-		}
-		else
-		{	
+		} else {	
 			NODE *cptr;
 			cptr = hnode->link;
-			while(cptr->link)
-			{	
+			
+			while(cptr->link) {	
 				cptr = cptr->link;
 				c++;
 			}
-			while(1)
-			{	
+
+			while(1) {	
 				cout<<"\n\nEnter the position : ";
 				cin>>p;
 				temp = hnode->link;
-				if(p == 1)
-				{	
+				if(p == 1) {	
 					insert_beg();
 					break;
-				}
-				else if(p == 0)
-				{	
+				} else if(p == 0) {	
 					cout<<"\n !! POSITION CANNOT BE ZERO !!";
 					sleep(500);						
 					continue;
-				}
-				else if(p>c)
-				{	
+				} else if(p>c) {	
 					cout<<"\n !! POSITION NOT AVAILABLE !!";
 					sleep(500);
 					continue;
-				}
-				else
-				{	
+				} else {	
 					cout<<"\nEnter the value to be INSERTED : ";										
 					cin>>val;
 					ptr = new NODE(val);
@@ -162,8 +150,7 @@ void LIST::insert_specific()
 
 
 //inserting at END of LIST
-void LIST::insert_end()
-{	
+void LIST::insert_end() {	
 	NODE *pnode = hnode;
 	NODE *q;
 	int val;
