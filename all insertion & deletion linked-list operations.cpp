@@ -166,17 +166,13 @@ void LIST::insert_end() {
 
 
 //deletion at BEGINNING of LIST
-void LIST::delete_beg()
-{	
+void LIST::delete_beg() {	
 	NODE *pnode = hnode->link;
 	NODE *dnode;
-	if(hnode->link == NULL)
-	{	
+	if(hnode->link == NULL) {	
 		cout<<"\n\nList is empty ! DELETION NOT POSSIBLE !";
 		sleep(1000);
-	}
-	else
-	{	
+	} else {	
 		dnode = hnode->link;
 		pnode = pnode->link;
 		hnode->link =pnode;
@@ -188,62 +184,47 @@ void LIST::delete_beg()
 
 
 //deletion at SPECIFIC POSITION of LIST
-void LIST::delete_specific()
-{	
+void LIST::delete_specific() {	
 	NODE *ptr = hnode;
 	NODE *temp;
 	int c=1;
 	int p;
 	int i;
 	int val;
-	while(1)
-	{	
-		if(hnode->link == NULL)
-		{	
+	
+	while(1) {	
+		if(hnode->link == NULL) {	
 			cout<<"\n\nList is empty ! DELETION NOT POSSIBLE !";
 			sleep(1000);
 			break;
-		}
-		else
-		{	
+		} else {	
 			NODE *cptr;
 			cptr = hnode->link;
-			while(cptr->link)
-			{	
+			
+			while(cptr->link) {	
 				cptr = cptr->link;
 				c++;
 			}
-			while(1)
-			{	
+			while(1) {	
 				cout<<"\n\nEnter the position : ";
 				cin>>p;
 				temp = hnode->link;
-				if(p == 1)
-				{	
+				if(p == 1) {	
 					delete_beg();
 					break;
-				}
-				else if(p == 0)
-				{	
+				} else if(p == 0) {	
 					cout<<"\n !! POSITION CANNOT BE ZERO !!";
 					sleep(500);						
 					continue;
-				}
-				else if(p>c)
-				{	
+				} else if(p>c) {	
 					cout<<"\n !! POSITION NOT AVAILABLE !!";
 					sleep(500);
 					continue;
-				}
-				else if(p==c)
-				{	
+				} else if(p==c) {	
 					delete_end();
 					break;
-				}
-				else
-				{	
-					for(i=0;i<p-1;i++)
-					{	
+				} else {	
+					for(i=0;i<p-1;i++) {	
 						temp = temp->link;
 						ptr = ptr->link;
 					}
@@ -261,19 +242,14 @@ void LIST::delete_specific()
 
 
 //deletion at END of LIST
-void LIST::delete_end()
-{	
+void LIST::delete_end() {	
 	NODE *pnode = hnode;
 	NODE *dnode = hnode->link;
-	if(hnode->link == NULL)
-	{	
+	if(hnode->link == NULL) {	
 		cout<<"\n\nList is empty ! DELETION NOT POSSIBLE !";
 		sleep(1000);
-	}
-	else
-	{	
-		while(dnode->link)
-		{	
+	} else {	
+		while(dnode->link) {	
 			dnode = dnode->link;
 			pnode = pnode->link;
 		}
