@@ -264,16 +264,13 @@ void LIST::delete_end() {
 
 
 //displaying the LIST
-void LIST::display()
-{	
+void LIST::display() {	
 	NODE *pnode = hnode->link;
 	if(pnode == NULL)
 		cout<<"\n!! LIST IS EMPTY !!";
-	else
-	{	
+	else {	
 		cout<<"\nLIST : ";
-		while(pnode)
-		{	
+		while(pnode) {	
 			cout<<pnode->info<<setw(4)<<"->";
 			pnode = pnode->link;
 		}
@@ -287,8 +284,7 @@ void LIST::display()
 
 
 //main
-int main()
-{	
+int main() {	
 	LIST a;
 	int ch;
 	cout<<"\nLIST CREATION \n";
@@ -296,8 +292,8 @@ int main()
 	system("cls");
 	cout<<"! LIST CREATION COMPLETED !";
 	sleep(2000);
-	do
-	{	
+	
+	do {	
 		system("cls");
 		cout<<"\n############################";
 		cout<<"\n#         MAIN MENU        #";
@@ -308,11 +304,11 @@ int main()
 		cout<<"\n4.\t EXIT";
 		cout<<"\n\n  >Enter choice : ";
 		cin>>ch;
-		switch(ch)
-		{	
-			case 1:	int inso;
-				do
-				{	
+		
+		switch(ch) {	
+			case 1:	
+				int inso;
+				do {	
 					system("cls");
 					cout<<"\n\t:::: INSERTION ::::";
 					cout<<"\n1.    insertion at BEGINNING";
@@ -320,38 +316,31 @@ int main()
 					cout<<"\n3.    insertion at END";
 					cout<<"\n\n  >Enter choice : ";
 					cin>>inso;
-					if(inso == 1)
-					{	
+					if(inso == 1) {	
 						system("cls");
 						cout<<"\n  INSERT AT BEGINNING";
 						a.insert_beg();
 						break;
-					}
-					else if(inso == 2)
-					{	
+					} else if(inso == 2) {	
 						system("cls");
 						cout<<"\n  INSERT AT SPECIFIC POSITION";
 						a.insert_specific();
 						break;
-					}	
-					else if(inso == 3)
-					{	
+					} else if(inso == 3) {	
 						system("cls");
 						cout<<"\n  INSERT AT END";
 						a.insert_end();
 						break;
-					}	
-					else
-					{	
+					} else {	
 						cout<<"\n! INVALID INPUT !";
 						sleep(500);
 						cout<<"\n choose again !";
 						sleep(1000);
 						continue;
 					}
-				}while(inso!=1||inso!=2||inso!=3);
-			system("cls");
-			break;
+				} while(inso!=1||inso!=2||inso!=3);
+				system("cls");
+				break;
 			
 			case 2:	int delo;
 				do
