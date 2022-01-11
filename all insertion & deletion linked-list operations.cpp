@@ -316,6 +316,7 @@ int main() {
 					cout<<"\n3.    insertion at END";
 					cout<<"\n\n  >Enter choice : ";
 					cin>>inso;
+					
 					if(inso == 1) {	
 						system("cls");
 						cout<<"\n  INSERT AT BEGINNING";
@@ -342,45 +343,40 @@ int main() {
 				system("cls");
 				break;
 			
-			case 2:	int delo;
-				do
-				{	system("cls");
+			case 2:	
+				int delo;
+				do {	
+					system("cls");
 					cout<<"\n\t:::: DELETION ::::";
 					cout<<"\n1.    deletion at BEGINNING";
 					cout<<"\n2.    deletion at SPECIFIC POSITION";
 					cout<<"\n3.    deletion at END";
 					cout<<"\n\n  >Enter choice : ";
 					cin>>delo;
-					if(delo == 1)
-					{	
+					
+					if(delo == 1) {	
 						system("cls");
 						cout<<"\n  DELETION AT BEGINNING";
 						a.delete_beg();
 						break;
-					}
-					else if(delo == 2)
-					{
+					} else if(delo == 2) {
 						system("cls");
 						cout<<"\n  DELETION AT SPECIFIC POSITION";
 						a.delete_specific();
 						break;
-					}	
-					else if(delo == 3)
-					{	
+					} else if(delo == 3) {	
 						system("cls");
 						cout<<"\n  DELETION AT END";
 						a.delete_end();
 						break;
-					}	
-					else
-					{	
+					} else {	
 						cout<<"\n! INVALID INPUT !";
 						sleep(500);
 						cout<<"\n choose again !";
 						sleep(1000);
 						continue;
 					}
-				}while(delo!=1||delo!=2||delo!=3);
+				} while(delo!=1||delo!=2||delo!=3);
 				system("cls");
 				break;
 			
