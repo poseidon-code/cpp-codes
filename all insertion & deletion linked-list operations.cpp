@@ -380,35 +380,39 @@ int main() {
 				system("cls");
 				break;
 			
-			case 3:	system("cls");
+			case 3:	
+				system("cls");
 				a.display();
 				char ech;
-				while(1)
-				{	cout<<"\n\n>Execute MENU again ? (y/n)";
+				
+				while(1) {
+					cout<<"\n\n>Execute MENU again ? (y/n)";
 					cin>>ech;
-					if(ech!='y' && ech!='n')
-					{	cout<<"\n INVALID INPUT !";
+					if(ech!='y' && ech!='n') {
+						cout<<"\n INVALID INPUT !";
 						continue;
 					}
-					else
-						break;
+					else break;
 				}
-				if(ech == 'y')
-				{	system("cls");
+				
+				if(ech == 'y') {
+					system("cls");
 					break;
-				}
-				else if(ech == 'n')
-				{	cout<<"\n\n!! EXITING !!";
+				} else if(ech == 'n') {
+					cout<<"\n\n!! EXITING !!";
 					exit(0);
 				}
 		
-			case 4:	cout<<"\n!! EXITING !!";
+			case 4:
+				cout<<"\n!! EXITING !!";
 				exit(0);
 			
-			default:cout<<"\n INVALID INPUT !!";
+			default:
+				cout<<"\n INVALID INPUT !!";
 				sleep(500);
 				continue;
 		}
-	}while(ch!=0);
+	} while(ch!=0);
+	
 	return 0;
 }
