@@ -1,6 +1,6 @@
 #include<iostream>	//basic I/O operations
 #include<iomanip>	//for setw()
-#include<stdlib.h>	//for system("cls")
+#include<stdlib.h>	//for clear()
 #include<unistd.h>  //for usleep()
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -37,6 +37,14 @@ void sleep(int time) {
 		Sleep(time);
 	#else
 		usleep(time*1000);
+	#endif
+}
+
+void clear() {
+	#if defined(_WIN32) || defined(_WIN64)
+		system("cls");
+	#else
+		system("clear");
 	#endif
 }
 
@@ -289,12 +297,12 @@ int main() {
 	int ch;
 	cout<<"\nLIST CREATION \n";
 	a.create();
-	system("cls");
+	clear();
 	cout<<"! LIST CREATION COMPLETED !";
 	sleep(2000);
 	
 	do {	
-		system("cls");
+		clear();
 		cout<<"\n############################";
 		cout<<"\n#         MAIN MENU        #";
 		cout<<"\n############################";
@@ -309,7 +317,7 @@ int main() {
 			case 1:	
 				int inso;
 				do {	
-					system("cls");
+					clear();
 					cout<<"\n\t:::: INSERTION ::::";
 					cout<<"\n1.    insertion at BEGINNING";
 					cout<<"\n2.    insertion at SPECIFIC POSITION";
@@ -318,17 +326,17 @@ int main() {
 					cin>>inso;
 					
 					if(inso == 1) {	
-						system("cls");
+						clear();
 						cout<<"\n  INSERT AT BEGINNING";
 						a.insert_beg();
 						break;
 					} else if(inso == 2) {	
-						system("cls");
+						clear();
 						cout<<"\n  INSERT AT SPECIFIC POSITION";
 						a.insert_specific();
 						break;
 					} else if(inso == 3) {	
-						system("cls");
+						clear();
 						cout<<"\n  INSERT AT END";
 						a.insert_end();
 						break;
@@ -340,13 +348,13 @@ int main() {
 						continue;
 					}
 				} while(inso!=1||inso!=2||inso!=3);
-				system("cls");
+				clear();
 				break;
 			
 			case 2:	
 				int delo;
 				do {	
-					system("cls");
+					clear();
 					cout<<"\n\t:::: DELETION ::::";
 					cout<<"\n1.    deletion at BEGINNING";
 					cout<<"\n2.    deletion at SPECIFIC POSITION";
@@ -355,17 +363,17 @@ int main() {
 					cin>>delo;
 					
 					if(delo == 1) {	
-						system("cls");
+						clear();
 						cout<<"\n  DELETION AT BEGINNING";
 						a.delete_beg();
 						break;
 					} else if(delo == 2) {
-						system("cls");
+						clear();
 						cout<<"\n  DELETION AT SPECIFIC POSITION";
 						a.delete_specific();
 						break;
 					} else if(delo == 3) {	
-						system("cls");
+						clear();
 						cout<<"\n  DELETION AT END";
 						a.delete_end();
 						break;
@@ -377,11 +385,11 @@ int main() {
 						continue;
 					}
 				} while(delo!=1||delo!=2||delo!=3);
-				system("cls");
+				clear();
 				break;
 			
 			case 3:	
-				system("cls");
+				clear();
 				a.display();
 				char ech;
 				
@@ -396,7 +404,7 @@ int main() {
 				}
 				
 				if(ech == 'y') {
-					system("cls");
+					clear();
 					break;
 				} else if(ech == 'n') {
 					cout<<"\n\n!! EXITING !!";
