@@ -68,7 +68,7 @@ void LIST::create() {
 	char choice;
 	int val;
 	while(1) {	
-		cout<<"\nInsert node ?? (y/n)";
+		cout<<"\nInsert node ?? (y/n) : ";
 		cin>>choice;
 		if(choice == 'n')
 			break;	
@@ -90,7 +90,7 @@ void LIST::insert_beg() {
 	NODE *q;
 	NODE *pnode = hnode;
 	int val;
-	cout<<"\nEnter the value to be INSERTED: ";
+	cout<<"\nEnter the value to be INSERTED : ";
 	cin>>val;
 	q = new NODE(val);
 	q->link = pnode->link;
@@ -322,7 +322,7 @@ int main() {
 					cout<<"\n1.    insertion at BEGINNING";
 					cout<<"\n2.    insertion at SPECIFIC POSITION";
 					cout<<"\n3.    insertion at END";
-					cout<<"\n\n  >Enter choice : ";
+					cout<<"\n\n  > Enter choice : ";
 					cin>>inso;
 					
 					if(inso == 1) {	
@@ -359,7 +359,7 @@ int main() {
 					cout<<"\n1.    deletion at BEGINNING";
 					cout<<"\n2.    deletion at SPECIFIC POSITION";
 					cout<<"\n3.    deletion at END";
-					cout<<"\n\n  >Enter choice : ";
+					cout<<"\n\n  > Enter choice : ";
 					cin>>delo;
 					
 					if(delo == 1) {	
@@ -394,7 +394,7 @@ int main() {
 				char ech;
 				
 				while(1) {
-					cout<<"\n\n>Execute MENU again ? (y/n)";
+					cout<<"\n\n>Execute MENU again ? (y/n) : ";
 					cin>>ech;
 					if(ech!='y' && ech!='n') {
 						cout<<"\n INVALID INPUT !";
