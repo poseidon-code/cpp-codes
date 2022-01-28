@@ -279,10 +279,10 @@ void LIST::display() {
 	else {	
 		cout<<"\nLIST : ";
 		while(pnode) {	
-			cout<<pnode->info<<setw(4)<<"->";
+			cout<<pnode->info<<setw(4)<<"-> ";
 			pnode = pnode->link;
 		}
-		cout<<" NULL"<<endl;
+		cout<<"NULL"<<endl;
 	}
 }
 
@@ -310,7 +310,7 @@ int main() {
 		cout<<"\n2.\t DELETION";
 		cout<<"\n3.\t DISPLAY";
 		cout<<"\n4.\t EXIT";
-		cout<<"\n\n  >Enter choice : ";
+		cout<<"\n\n  > Enter choice : ";
 		cin>>ch;
 		
 		switch(ch) {	
@@ -394,7 +394,7 @@ int main() {
 				char ech;
 				
 				while(1) {
-					cout<<"\n\n>Execute MENU again ? (y/n) : ";
+					cout<<"\n\n> Execute MENU again ? (y/n) : ";
 					cin>>ech;
 					if(ech!='y' && ech!='n') {
 						cout<<"\n INVALID INPUT !";
