@@ -1,6 +1,9 @@
 #include<iostream>
 #include<stdlib.h>
-#include<windows.h>
+#include<unistd.h>
+#if defined(_WIN32) || defined(_WIN64)
+	#include<windows.h>
+#endif
 
 using namespace std;
 
@@ -22,6 +25,14 @@ class STACK
 			void pop();
 			void display();
 };
+
+void sleep(int time) {
+	#if defined(_WIN32) || defined(_WIN64)
+		Sleep(time);
+	#else
+		usleep(time*1000);
+	#endif
+}
 
 //NODE : parameterised contructor
 STACK::NODE::NODE(int a)
@@ -59,10 +70,10 @@ void STACK::push()
 	for(int i=0;i<3;i++)
 	{	
 		cout<<". ";
-		Sleep(300);
+		sleep(300);
 	}
 	cout<<" VALUE ENTERED";
-	Sleep(1000);
+	sleep(1000);
 }
 
 
@@ -86,11 +97,11 @@ void STACK::pop()
 		for(int i=0;i<3;i++)
 		{	
 			cout<<". ";
-			Sleep(300);
+			sleep(300);
 		}
 		cout<<" VALUE DELETED";
 	}
-	Sleep(1000);
+	sleep(1000);
 }
 
 
@@ -172,7 +183,7 @@ int main()
 				exit(0);
 			
 			default:cout<<"\nINVALID INPUT !!";
-				Sleep(500);
+				sleep(500);
 				continue;
 		}
 	}while(ch!=0);
