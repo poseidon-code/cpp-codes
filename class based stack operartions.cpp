@@ -34,6 +34,14 @@ void sleep(int time) {
 	#endif
 }
 
+void clear() {
+	#if defined(_WIN32) || defined(_WIN64)
+		system("cls");
+	#else
+		system("clear");
+	#endif
+}
+
 //NODE : parameterised contructor
 STACK::NODE::NODE(int a)
 {	
@@ -137,7 +145,7 @@ int main()
 	int ch;
 	do
 	{	
-		system("cls");
+		clear();
 		cout<<"\n############################";
 		cout<<"\n#         MAIN MENU        #";
 		cout<<"\n############################";
@@ -155,7 +163,7 @@ int main()
 			case 2:	s.pop();
 				break;
 			
-			case 3:	system("cls");
+			case 3:	clear();
 				s.display();
 				char ech;
 				while(1)
@@ -171,7 +179,7 @@ int main()
 				}
 				if(ech == 'y')
 				{	
-					system("cls");
+					clear();
 					break;
 				}
 				else if(ech == 'n')
