@@ -9,21 +9,21 @@ using namespace std;
 
 
 //STACK class
-class STACK
-{	
-	private:	class NODE
-			{	
-				public:	int info;
-					NODE *link;
-					NODE(int a=-1);
-			};
-			NODE *hnode;
+class STACK {	
+	private:	
+		class NODE {	
+			public:	int info;
+				NODE *link;
+				NODE(int a=-1);
+		};
+		NODE *hnode;
 
-	public:		STACK();
-			~STACK();
-			void push();
-			void pop();
-			void display();
+	public:		
+		STACK();
+		~STACK();
+		void push();
+		void pop();
+		void display();
 };
 
 void sleep(int time) {
@@ -43,23 +43,16 @@ void clear() {
 }
 
 //NODE : parameterised contructor
-STACK::NODE::NODE(int a)
-{	
+STACK::NODE::NODE(int a) {	
 	info = a;
 	link = NULL;
 }
 
 //STACK : constructor
-STACK::STACK()
-{	
-	hnode = new NODE();
-}
+STACK::STACK() { hnode = new NODE(); }
 
 //STACK : destructor
-STACK::~STACK()
-{	
-	delete hnode;
-}
+STACK::~STACK() { delete hnode; }
 
 
 
