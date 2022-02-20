@@ -57,8 +57,7 @@ STACK::~STACK() { delete hnode; }
 
 
 //stack PUSH
-void STACK::push()
-{	
+void STACK::push() {	
 	NODE *q;
 	NODE *pnode = hnode;
 	int val;
@@ -68,8 +67,8 @@ void STACK::push()
 	q->link = pnode->link;
 	pnode->link = q;
 	cout<<"\n";
-	for(int i=0;i<3;i++)
-	{	
+	
+	for(int i=0;i<3;i++) {	
 		cout<<". ";
 		sleep(300);
 	}
@@ -80,23 +79,19 @@ void STACK::push()
 
 
 //stack POP
-void STACK::pop()
-{	
+void STACK::pop() {	
 	NODE *pnode = hnode->link;
 	NODE *dnode;
-	if(hnode->link == NULL)
-	{	
+	
+	if(hnode->link == NULL) {	
 		cout<<"\n\nSTACK IS EMPTY ! DELETION NOT POSSIBLE !";
-	}
-	else
-	{	
+	} else {	
 		dnode = hnode->link;
 		pnode = pnode->link;
 		hnode->link =pnode;
 		delete dnode;
 		cout<<"\n";
-		for(int i=0;i<3;i++)
-		{	
+		for(int i=0;i<3;i++) {	
 			cout<<". ";
 			sleep(300);
 		}
@@ -108,17 +103,14 @@ void STACK::pop()
 
 
 //stack DISPLAY
-void STACK::display()
-{	
+void STACK::display() {	
 	NODE *p;
 	p = hnode->link;
-	if(p == NULL)
+	if(p == NULL) {
 		cout<<"\n STACK IS EMPTY !";
-	else
-	{	
+	} else {	
 		cout<<"\n STACK : ";
-		while(p)
-		{	
+		while(p) {	
 			cout<<p->info<<" <- ";
 			p = p->link;
 		}
