@@ -124,12 +124,11 @@ void STACK::display() {
 
 
 //main
-int main()
-{ 	
+int main() { 	
 	STACK s;
 	int ch;
-	do
-	{	
+	
+	do {	
 		clear();
 		cout<<"\n############################";
 		cout<<"\n#         MAIN MENU        #";
@@ -140,45 +139,48 @@ int main()
 		cout<<"\n4.\t EXIT";
 		cout<<"\n\n  >Enter choice : ";
 		cin>>ch;
-		switch(ch)
-		{	
-			case 1:	s.push();
+		
+		switch(ch) {	
+			case 1:	
+				s.push();
 				break;
 			
-			case 2:	s.pop();
+			case 2:	
+				s.pop();
 				break;
 			
-			case 3:	clear();
+			case 3:	
+				clear();
 				s.display();
 				char ech;
-				while(1)
-				{	cout<<"\n\n>Execute MENU again ? (y/n)";
+				
+				while(1) {
+					cout<<"\n\n>Execute MENU again ? (y/n)";
 					cin>>ech;
-					if(ech!='y' && ech!='n')
-					{	
+					if(ech!='y' && ech!='n') {	
 						cout<<"\n INVALID INPUT !";
 						continue;
-					}
-					else
-						break;
+					} else break;
 				}
-				if(ech == 'y')
-				{	
+
+				if(ech == 'y') {	
 					clear();
 					break;
-				}
-				else if(ech == 'n')
-				{	
+				} else if(ech == 'n') {	
 					cout<<"\n\n!! EXITING !!";
 					exit(0);
 				}
-			case 4:	cout<<"\n\nEXITING !!";
+			
+			case 4:	
+				cout<<"\n\nEXITING !!";
 				exit(0);
 			
-			default:cout<<"\nINVALID INPUT !!";
+			default:
+				cout<<"\nINVALID INPUT !!";
 				sleep(500);
 				continue;
 		}
-	}while(ch!=0);
+	} while(ch!=0);
+	
 	return 0;
 }
