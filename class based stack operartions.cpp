@@ -61,7 +61,7 @@ void STACK::push() {
 	NODE *q;
 	NODE *pnode = hnode;
 	int val;
-	cout<<"\nEnter the value to be PUSHED: ";
+	cout<<"\nEnter the value to be PUSHED : ";
 	cin>>val;
 	q = new NODE(val);
 	q->link = pnode->link;
@@ -137,7 +137,7 @@ int main() {
 		cout<<"\n2.\t DELETION";
 		cout<<"\n3.\t DISPLAY";
 		cout<<"\n4.\t EXIT";
-		cout<<"\n\n  >Enter choice : ";
+		cout<<"\n\n  > Enter choice : ";
 		cin>>ch;
 		
 		switch(ch) {	
@@ -155,7 +155,7 @@ int main() {
 				char ech;
 				
 				while(1) {
-					cout<<"\n\n>Execute MENU again ? (y/n)";
+					cout<<"\n\n> Execute MENU again ? (y/n) : ";
 					cin>>ech;
 					if(ech!='y' && ech!='n') {	
 						cout<<"\n INVALID INPUT !";
