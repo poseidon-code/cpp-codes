@@ -11,23 +11,25 @@ int sum[4] = {0, 0, 0, 0};
 int part = 0;
 
 
-void *sum_array(void *arg) {	
+void *sum_array(void *arg) {
 	int thread_part = part++;
-	for(int i = thread_part*(MAX/4); i < (thread_part+1)*(MAX/4); i++)
+
+	for(int i=thread_part*(MAX/4); i<(thread_part+1)*(MAX/4); i++)
 		sum[thread_part] += a[i];
+
 	return NULL;
 }
 
 
 int main() {
 	pthread_t threads[MAX_THREAD];
-	
+
 	for(int i=0; i<MAX_THREAD; i++)
 		pthread_create(&threads[i], NULL, sum_array, (void*)NULL);
-	
+
 	for(int i=0; i<MAX_THREAD; i++)
 		pthread_join(threads[i], NULL);
-	
+
 	int total_sum = 0;
 	for(int i=0; i<MAX_THREAD; i++) {
 		cout<<"SUM of THREAD ["<<i<<"] = "<<sum[i]<<"\n";
@@ -35,6 +37,6 @@ int main() {
 	}
 
 	cout<<"TOTAL SUM : "<<total_sum<<endl;
-	
+
 	return 0;
 }
