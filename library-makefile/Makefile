@@ -10,8 +10,10 @@ setup:
 
 
 # make shared library
-shared: setup
-	g++ $(INCLUDE_DIR) -fPIC -shared -o lib/lib$(NAME).so src/*.cpp
+shared: CXXFLAGS += -fPIC -shared
+shared:
+	@mkdir -p lib
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o lib/lib$(NAME).so src/*.cpp
 
 
 # make static library
