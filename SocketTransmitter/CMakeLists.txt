@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(
     SOURCES
-    src/SocketTransmitter.cpp
+    SocketTransmitter.cpp
+    src/Socket.cpp
 )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -15,6 +16,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # SocketTransmitter.a
 add_library(SocketTransmitter_static STATIC ${SOURCES})
+target_include_directories(SocketTransmitter_static PUBLIC include)
 set_target_properties(
     SocketTransmitter_static
     PROPERTIES 
@@ -23,6 +25,7 @@ set_target_properties(
 
 # SocketTransmitter.so
 add_library(SocketTransmitter_shared SHARED ${SOURCES})
+target_include_directories(SocketTransmitter_shared PUBLIC include)
 set_target_properties(
     SocketTransmitter_shared
     PROPERTIES 
@@ -31,6 +34,7 @@ set_target_properties(
 
 # SocketTransmitter
 add_executable(SocketTransmitter_executable ${SOURCES})
+target_include_directories(SocketTransmitter_executable PUBLIC include)
 set_target_properties(
     SocketTransmitter_executable
     PROPERTIES
