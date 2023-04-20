@@ -18,7 +18,7 @@ Socket::~Socket() {
 int Socket::handleSocketClose() {
     if (serversocket >= 0) {
         if (close(serversocket) >= 0) {
-            std::cout << "SUCCESS:\t Socket closed." << std::endl;
+            std::cout << "SUCCESS: Socket closed." << std::endl;
             return 0;
         } else {
             std::cerr << "ERROR:\t Failed to close socket." << std::endl;
@@ -37,7 +37,7 @@ int Socket::Create() {
         std::cerr << "ERROR:\t Failed to create socket." << std::endl;
         return -1;
     } else {
-        std::cout << "SUCCESS:\t Socket created." << std::endl;
+        std::cout << "SUCCESS: Socket created." << std::endl;
         return 0;
     }
 }
