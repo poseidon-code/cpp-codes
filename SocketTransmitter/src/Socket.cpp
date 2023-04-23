@@ -5,10 +5,14 @@
 
 #include "Socket.h"
 
-Socket::Socket(const char* ccAddress, unsigned short usPort) {
-    address.sin_family = AF_INET;
-    address.sin_port = htons(usPort);
-    address.sin_addr.s_addr = inet_addr(ccAddress);
+Socket::Socket(const char* ccServerIP, unsigned short usServerPort, const char* ccClientIP, unsigned short usClientPort) {
+    serverAddress.sin_family = AF_INET;
+    serverAddress.sin_port = htons(usServerPort);
+    serverAddress.sin_addr.s_addr = inet_addr(ccServerIP);
+    
+    clientAddress.sin_family = AF_INET;
+    clientAddress.sin_port = htons(usClientPort);
+    clientAddress.sin_addr.s_addr = inet_addr(ccClientIP);
 };
 
 Socket::~Socket() {
@@ -16,8 +20,8 @@ Socket::~Socket() {
 };
 
 int Socket::handleSocketClose() {
-    if (serversocket >= 0) {
-        if (close(serversocket) >= 0) {
+    if (serverSocket >= 0) {
+        if (close(serverSocket) >= 0) {
             std::cout << "SUCCESS: Socket closed." << std::endl;
             return 0;
         } else {
@@ -31,13 +35,15 @@ int Socket::handleSocketClose() {
 }
 
 int Socket::Create() {
-    serversocket = socket(AF_INET, SOCK_DGRAM, 0);
+    serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
     
-    if (serversocket == -1) {
+    if (serverSocket == -1) {
         std::cerr << "ERROR:\t Failed to create socket." << std::endl;
         return -1;
     } else {
         std::cout << "SUCCESS: Socket created." << std::endl;
+        bind(serverSocket, (sockaddr*)&serverAddress, sizeof(serverAddress));
+
         return 0;
     }
 }
@@ -48,10 +54,10 @@ int Socket::Close() {
 
 int Socket::Send(const char* ccData) {
     int bytesSent = sendto(
-        serversocket,
+        serverSocket,
         ccData, std::strlen(ccData),
         MSG_CONFIRM | MSG_NOSIGNAL,
-        (struct sockaddr*)&address, sizeof(address)
+        (struct sockaddr*)&clientAddress, sizeof(clientAddress)
     );
 
     if (bytesSent <= 0)

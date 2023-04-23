@@ -4,13 +4,14 @@
 
 class Socket {
 private:
-    sockaddr_in address{};
-    int serversocket;
+    sockaddr_in serverAddress{};
+    sockaddr_in clientAddress{};
+    int serverSocket;
 
     int handleSocketClose();
 
 public:
-    Socket(const char* ccAddress, unsigned short usPort);
+    Socket(const char* ccServerAddress, unsigned short usServerPort, const char* ccClientAddress, unsigned short usClientPort);
     ~Socket();
 
     int Create();
