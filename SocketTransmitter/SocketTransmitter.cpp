@@ -4,16 +4,18 @@
 #include <iostream>
 #include <thread>
 #include <atomic>
+#include <string>
 
 #include "Socket.h"
 
 #define CL "\r\033[K"       // clear terminal line
-#define DATARATE 200        // data rate (in miliseconds)
+#define DATARATE 500        // data rate (in miliseconds)
 
 
 // global signal variables
 volatile sig_atomic_t sSIGINT = 0;
 
+// handle interrupt signals
 void handleInterrupt(int signal) {
     switch (signal) {
         case SIGINT: sSIGINT = 1; break;
@@ -21,6 +23,7 @@ void handleInterrupt(int signal) {
 }
 
 
+// tick counter for data rate simulation
 std::atomic<unsigned long> tick{0};
 void tickThread(std::atomic<unsigned long>& tick) {
     while (!sSIGINT) {
@@ -38,7 +41,7 @@ int main() {
     unsigned long previousTick = 0, currentTick = 0;
     std::thread oTickThread(tickThread, std::ref(tick));
 
-    Socket* socket = new Socket("127.0.0.1", 8000);
+    Socket* socket = new Socket("127.0.0.1", 8000, "127.0.0.1", 1110);
     socket->Create();
 
     int c = 0;
@@ -49,10 +52,10 @@ int main() {
         if (currentTick >= previousTick + DATARATE) {
             previousTick = currentTick;
 
-            std::cout << CL << "Data Sent : " << ++c << std::flush;
-
-            const char *data = "Hello, client!";
+            const char* data = std::to_string(c).c_str();
             socket->Send(data);
+
+            std::cout << CL << "Data Sent : " << ++c << std::flush;
         }
     } std::cout << std::endl;
 
