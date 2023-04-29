@@ -5,6 +5,7 @@
 #include <thread>
 #include <atomic>
 #include <string>
+#include <memory>
 
 #include "Socket.h"
 
@@ -41,8 +42,7 @@ int main() {
     unsigned long previousTick = 0, currentTick = 0;
     std::thread oTickThread(tickThread, std::ref(tick));
 
-    Socket* socket = new Socket("127.0.0.1", 8000, "127.0.0.1", 1110);
-    socket->Create();
+    std::unique_ptr<Socket> socket(new Socket("127.0.0.1", 8000, "127.0.0.1", 1110));
 
     int c = 0;
 
@@ -60,8 +60,6 @@ int main() {
     } std::cout << std::endl;
 
 
-    socket->Close();
     oTickThread.join();
-
     return 0;
 }
