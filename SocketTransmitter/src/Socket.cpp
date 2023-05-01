@@ -5,7 +5,9 @@
 
 #include "Socket.h"
 
-
+extern "C" Socket* SocketConstructor(const char* ccServerAddress, unsigned short usServerPort, const char* ccClientAddress, unsigned short usClientPort) {
+    return new Socket(ccServerAddress, usServerPort, ccClientAddress, usClientPort);
+}
 
 Socket::Socket(const char* ccServerIP, unsigned short usServerPort, const char* ccClientIP, unsigned short usClientPort) {
     serverAddress.sin_family = AF_INET;

@@ -17,3 +17,10 @@ public:
 
     int Send(const char* ccData);
 };
+
+extern "C" {
+    Socket* SocketConstructor(
+        const char* ccServerAddress, unsigned short usServerPort,
+        const char* ccClientAddress, unsigned short usClientPort
+    );
+}
