@@ -34,12 +34,12 @@ set_target_properties(
 
 
 # Runnable (actual executable with linked libraries)
-set(LINK_LIBRARIES Socket) # automatically uses dynamic library unless mentioned, like - Socket.a (uses static version of the library)
+set(TARGET_LIBRARIES Socket) # automatically uses dynamic library unless mentioned, like - Socket.a (uses static version of the library)
 
 add_executable(Runnable_executable main.cpp)
 target_include_directories(Runnable_executable PRIVATE ${LIBSOCKET_INCLUDE_DIRECTORIES})
 target_link_directories(Runnable_executable PRIVATE ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-target_link_libraries(Runnable_executable ${LINK_LIBRARIES})
+target_link_libraries(Runnable_executable ${TARGET_LIBRARIES})
 set_target_properties(
     Runnable_executable
     PROPERTIES
