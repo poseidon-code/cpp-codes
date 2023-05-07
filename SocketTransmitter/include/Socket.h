@@ -10,8 +10,8 @@ private:
 
 public:
     Socket(
-        const char* ccServerAddress, unsigned short usServerPort,
-        const char* ccClientAddress, unsigned short usClientPort
+        const char* ccServerIP, unsigned short usServerPort,
+        const char* ccClientIP, unsigned short usClientPort
     );
     ~Socket();
 
@@ -20,7 +20,7 @@ public:
 
 extern "C" {
     Socket* SocketConstructor(
-        const char* ccServerAddress, unsigned short usServerPort,
-        const char* ccClientAddress, unsigned short usClientPort
+        const char* ccServerIP, unsigned short usServerPort,
+        const char* ccClientIP, unsigned short usClientPort
     );
 }

@@ -5,8 +5,8 @@
 
 #include "Socket.h"
 
-extern "C" Socket* SocketConstructor(const char* ccServerAddress, unsigned short usServerPort, const char* ccClientAddress, unsigned short usClientPort) {
-    return new Socket(ccServerAddress, usServerPort, ccClientAddress, usClientPort);
+extern "C" Socket* SocketConstructor(const char* ccServerIP, unsigned short usServerPort, const char* ccClientIP, unsigned short usClientPort) {
+    return new Socket(ccServerIP, usServerPort, ccClientIP, usClientPort);
 }
 
 Socket::Socket(const char* ccServerIP, unsigned short usServerPort, const char* ccClientIP, unsigned short usClientPort) {
