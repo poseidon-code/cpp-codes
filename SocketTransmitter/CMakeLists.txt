@@ -4,19 +4,20 @@ project(SocketTransmitter)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCES
-    src/Socket.cpp
-)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 
+set(LIBSOCKET_SOURCES src/Socket.cpp)
+set(LIBSOCKET_INCLUDE_DIRECTORIES include)
+
+
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     # libSocket.a
-    add_library(Socket_static STATIC ${SOURCES})
-    target_include_directories(Socket_static PUBLIC include)
+    add_library(Socket_static STATIC ${LIBSOCKET_SOURCES})
+    target_include_directories(Socket_static PUBLIC ${LIBSOCKET_INCLUDE_DIRECTORIES})
     set_target_properties(
         Socket_static
         PROPERTIES 
@@ -24,8 +25,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     )
 
     # libSocket.so
-    add_library(Socket_shared SHARED ${SOURCES})
-    target_include_directories(Socket_shared PUBLIC include)
+    add_library(Socket_shared SHARED ${LIBSOCKET_SOURCES})
+    target_include_directories(Socket_shared PUBLIC ${LIBSOCKET_INCLUDE_DIRECTORIES})
     set_target_properties(
         Socket_shared
         PROPERTIES 
@@ -33,9 +34,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     )
 endif()
 
-# SocketTransmitter
-add_executable(SocketTransmitter_executable SocketTransmitter.cpp ${SOURCES})
-target_include_directories(SocketTransmitter_executable PUBLIC include)
+
+
+# SocketTransmitter (building with library source directly)
+add_executable(SocketTransmitter_executable 
+    SocketTransmitter.cpp
+    ${LIBSOCKET_SOURCES}
+)
+target_include_directories(SocketTransmitter_executable PUBLIC ${LIBSOCKET_INCLUDE_DIRECTORIES})
 set_target_properties(
     SocketTransmitter_executable
     PROPERTIES
