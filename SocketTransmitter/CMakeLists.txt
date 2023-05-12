@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(SocketTransmitter)
+project(SocketImplementations)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -45,7 +45,19 @@ target_include_directories(SocketTransmitter_executable PUBLIC ${LIBSOCKET_INCLU
 set_target_properties(
     SocketTransmitter_executable
     PROPERTIES
-    OUTPUT_NAME ${PROJECT_NAME}
+    OUTPUT_NAME SocketTransmitter
+)
+
+# SocketReceiver (building with library source directly)
+add_executable(SocketReceiver_executable 
+    SocketReceiver.cpp
+    ${LIBSOCKET_SOURCES}
+)
+target_include_directories(SocketReceiver_executable PUBLIC ${LIBSOCKET_INCLUDE_DIRECTORIES})
+set_target_properties(
+    SocketReceiver_executable
+    PROPERTIES
+    OUTPUT_NAME SocketReceiver
 )
 
 
