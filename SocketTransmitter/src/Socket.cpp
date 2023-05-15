@@ -59,12 +59,10 @@ Socket::Socket(unsigned short usReceivingPort) {
 
 Socket::~Socket() {
     if (serverSocket > 0)
-        if (close(serverSocket) < 0)
-            throw std::runtime_error("failed to close sender socket");
+        close(serverSocket);
 
     if (clientSocket > 0)
-        if (close(clientSocket) < 0)
-            throw std::runtime_error("failed to close receiver socket");
+        close(clientSocket);
 };
 
 
