@@ -3,31 +3,18 @@
 #include <arpa/inet.h>
 #include <functional>
 
+
 class Socket {
 private:
-    sockaddr_in serverAddress{};
-    sockaddr_in clientAddress{};
-    int serverSocket;
-    int clientSocket;
+    sockaddr_in address{};
 
 public:
-    Socket(
-        const char* ccServerIP, unsigned short usServerPort,
-        const char* ccClientIP, unsigned short usClientPort,
-        bool loopback
-    );
-    Socket(unsigned short usReceivingPort);
+    int udpsocket;
+    Socket(const char* ccIP, unsigned short usPort);
     ~Socket();
 
-    int Send(const char* ccData);
-    int Receive(std::function<void(const char*, int)> callback);
+    int Send(const char* ccData, unsigned short usSendToPort);
+    int Receive(std::function<void(const char*, int)> fnCallback, const unsigned short usBufferSize);
 };
 
-extern "C" {
-    Socket* SenderSocketConstructor(
-        const char* ccServerIP, unsigned short usServerPort,
-        const char* ccClientIP, unsigned short usClientPort,
-        bool loopback
-    );
-    Socket* ReceiverSocketConstructor(unsigned short usReceivingPort);
-}
+extern "C" Socket* Constructor(const char* ccServerIP, unsigned short usServerPort);
