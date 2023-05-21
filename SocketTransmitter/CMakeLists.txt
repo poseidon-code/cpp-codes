@@ -61,6 +61,19 @@ set_target_properties(
 )
 
 
+# SocketMultithreaded (building with library source directly)
+add_executable(SocketMultithreaded_executable 
+    SocketMultithreaded.cpp
+    ${LIBSOCKET_SOURCES}
+)
+target_include_directories(SocketMultithreaded_executable PUBLIC ${LIBSOCKET_INCLUDE_DIRECTORIES})
+set_target_properties(
+    SocketMultithreaded_executable
+    PROPERTIES
+    OUTPUT_NAME SocketMultithreaded
+)
+
+
 # VS Code CMake Tools Commands
 # CMake:Configure                                           : cmake -S . -B build
 # CMake:Delete Cache and reconfigure                        : cmake --fresh -S . -B build
