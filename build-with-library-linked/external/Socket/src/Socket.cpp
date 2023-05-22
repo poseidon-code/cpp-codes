@@ -1,54 +1,66 @@
-#include <sys/socket.h>
-#include <iostream>
-#include <unistd.h>
 #include <cstring>
+#include <iostream>
+#include <sys/epoll.h>
+#include <sys/socket.h>
+#include <system_error>
+#include <unistd.h>
 
 #include "Socket.h"
 
-extern "C" Socket* SocketConstructor(const char* ccServerAddress, unsigned short usServerPort, const char* ccClientAddress, unsigned short usClientPort) {
-    return new Socket(ccServerAddress, usServerPort, ccClientAddress, usClientPort);
+
+extern "C" Socket* Constructor(const char* ccServerIP, unsigned short usServerPort) {
+    return new Socket(ccServerIP, usServerPort);
 }
 
-Socket::Socket(const char* ccServerIP, unsigned short usServerPort, const char* ccClientIP, unsigned short usClientPort) {
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons(usServerPort);
-    serverAddress.sin_addr.s_addr = inet_addr(ccServerIP);
-    
-    clientAddress.sin_family = AF_INET;
-    clientAddress.sin_port = htons(usClientPort);
-    clientAddress.sin_addr.s_addr = inet_addr(ccClientIP);
 
-    serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
-    if (serverSocket == -1) {
-        std::cerr << "ERROR:\t Failed to create socket." << std::endl;
-    } else {
-        bind(serverSocket, (sockaddr*)&serverAddress, sizeof(serverAddress));
-        std::cout << "SUCCESS: Socket created." << std::endl;
-    }
+Socket::Socket(const char* ccIP, unsigned short usPort) {
+    address.sin_family = AF_INET;
+    address.sin_port = htons(usPort);
+    address.sin_addr.s_addr = inet_addr(ccIP);
+
+    udpsocket = socket(AF_INET, SOCK_DGRAM, 0);
+    if (udpsocket == -1)
+        throw std::runtime_error("failed to create sender socket");
+    else
+        bind(udpsocket, (sockaddr*)&address, sizeof(address));
 };
 
 
 Socket::~Socket() {
-    if (serverSocket >= 0)
-        if (close(serverSocket) >= 0)
-            std::cout << "SUCCESS: Socket closed." << std::endl;
-        else
-            std::cerr << "ERROR:\t Failed to close socket." << std::endl;
-    else
-        std::cerr << "ERROR:\t No open sockets found, No sockets were closed." << std::endl;
+    if (udpsocket > 0) close(udpsocket);
 };
 
 
-int Socket::Send(const char* ccData) {
-    int bytesSent = sendto(
-        serverSocket,
+int Socket::Send(const char* ccData, unsigned short usSendToPort) {
+    sockaddr_in sendto_address{};
+    sendto_address.sin_family = AF_INET;
+    sendto_address.sin_port = htons(usSendToPort);
+
+    int bytes_sent = sendto(
+        udpsocket,
         ccData, std::strlen(ccData),
         MSG_CONFIRM | MSG_NOSIGNAL,
-        (struct sockaddr*)&clientAddress, sizeof(clientAddress)
+        (struct sockaddr*)&sendto_address, sizeof(sendto_address)
     );
 
-    if (bytesSent <= 0)
-        std::cerr << "ERROR:\t Failed to send data, " << strerror(errno) << std::endl;
+    return bytes_sent;
+}
 
-    return bytesSent;
+
+int Socket::Receive(std::function<void(const char*, int)> fnCallback, const unsigned short usBufferSize) {
+    char buffer[usBufferSize];
+    socklen_t address_length = sizeof(address);
+    
+    int bytes_read = recvfrom(
+        udpsocket,
+        buffer, sizeof(buffer), 
+        0,
+        (struct sockaddr*)&address, &address_length);
+
+    if (bytes_read > 0) {
+        buffer[bytes_read] = '\0';
+        fnCallback(buffer, bytes_read);
+    }
+
+    return bytes_read;
 }

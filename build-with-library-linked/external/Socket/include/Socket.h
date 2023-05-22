@@ -1,26 +1,20 @@
 #pragma once
 
 #include <arpa/inet.h>
+#include <functional>
+
 
 class Socket {
 private:
-    sockaddr_in serverAddress{};
-    sockaddr_in clientAddress{};
-    int serverSocket;
+    sockaddr_in address{};
 
 public:
-    Socket(
-        const char* ccServerAddress, unsigned short usServerPort,
-        const char* ccClientAddress, unsigned short usClientPort
-    );
+    int udpsocket;
+    Socket(const char* ccIP, unsigned short usPort);
     ~Socket();
 
-    int Send(const char* ccData);
+    int Send(const char* ccData, unsigned short usSendToPort);
+    int Receive(std::function<void(const char*, int)> fnCallback, const unsigned short usBufferSize);
 };
 
-extern "C" {
-    Socket* SocketConstructor(
-        const char* ccServerAddress, unsigned short usServerPort,
-        const char* ccClientAddress, unsigned short usClientPort
-    );
-}
+extern "C" Socket* Constructor(const char* ccServerIP, unsigned short usServerPort);
