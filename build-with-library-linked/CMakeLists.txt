@@ -14,7 +14,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(LIBSOCKET_INCLUDE_DIRECTORIES external/Socket/include)
 set(LIBSOCKET_SOURCES external/Socket/src/Socket.cpp)
 
-# libSocket.a (should be explicitly mentioned for using)
+# libSocket.a (should be explicitly mentioned for using static library)
 add_library(Socket_static STATIC ${LIBSOCKET_SOURCES})
 target_include_directories(Socket_static PUBLIC ${LIBSOCKET_INCLUDE_DIRECTORIES})
 set_target_properties(
