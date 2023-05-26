@@ -1,11 +1,11 @@
+#include <atomic>
 #include <chrono>
 #include <csignal>
 #include <ctime>
 #include <iostream>
-#include <thread>
-#include <atomic>
-#include <string>
 #include <memory>
+#include <string>
+#include <thread>
 
 #include "Socket.h"
 
@@ -41,8 +41,8 @@ int main() {
 
     unsigned long previousTick = 0, currentTick = 0;
     std::thread oTickThread(tickThread, std::ref(tick));
-
-    std::unique_ptr<Socket> socket(new Socket("127.0.0.1", 8000, "127.0.0.1", 1110));
+    
+    std::unique_ptr<Socket> socket = std::make_unique<Socket>("127.0.0.1", 8000);
 
     int c = 0;
 
@@ -53,7 +53,7 @@ int main() {
             previousTick = currentTick;
 
             const char* data = std::to_string(c).c_str();
-            socket->Send(data);
+            socket->Send(data, 1110);
 
             std::cout << CL << "Data Sent : " << ++c << std::flush;
         }
