@@ -17,4 +17,4 @@ public:
     int Receive(std::function<void(const char*, int)> fnCallback, const unsigned short usBufferSize);
 };
 
-extern "C" Socket* Constructor(const char* ccServerIP, unsigned short usServerPort);
+extern "C" Socket* Constructor(const char* ccIP, unsigned short usPort);
