@@ -1,0 +1,3 @@
+# the built (copied over) libraries can be ignored for versioning as they are only copied from the library package which makes them redundant
+# including the external libraries along with pre-built libraries is sufficient as the programmer is assumed to build the binary from scratch
+build/bin/lib/
