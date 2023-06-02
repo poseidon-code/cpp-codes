@@ -38,3 +38,13 @@ set_target_properties(
     PROPERTIES
     OUTPUT_NAME ${PROJECT_NAME}
 )
+# program needs to be ran from within the `./build/bin/` directory
+# as the runtime loading of library is relative to tha path of the built binary
+# (i.e. `dlopen('lib/libSocket.so', RTLD_LAZY)` inside the `build/bin` directory)
+# build/bin
+# |-- Runnable
+# `-- lib
+#     |-- libSocket.a
+#     `-- libSocket.so
+## this is common use case, just like a built (installed) game has all its libraries inside one `bin/lib` directory
+## with the actual game binary in the `bin/` directory, and a shortcut to that binary is set to the desktop
