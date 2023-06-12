@@ -28,7 +28,7 @@ void handleInterrupt(int signal) {
 }
 
 
-void callback(const char* ccData, int bytesRead) {
+void callback(char* ccData, int bytesRead) {
      std::cout << "\r\033[K" << "Data Received : " << ccData << std::flush;
 }
 
@@ -41,7 +41,9 @@ int main() {
         return 3;
     }
 
-    std::unique_ptr<Socket> socket = std::make_unique<Socket>("127.0.0.1", 1110);
+    Network thisNetwork("192.168.8.129", 1110);
+
+    std::unique_ptr<Socket> socket = std::make_unique<Socket>(thisNetwork);
 
 
     int epollFd = epoll_create1(0);

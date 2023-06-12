@@ -38,7 +38,7 @@ void tickThread(std::atomic<unsigned long>& tick) {
 }
 
 
-int senderThread(std::unique_ptr<Socket> socket) {
+int senderThread(std::unique_ptr<Socket> socket, const Network& sendto_network) {
     unsigned long previousTick = 0, currentTick = 0;
 
     unsigned long long c = 0;
@@ -50,7 +50,7 @@ int senderThread(std::unique_ptr<Socket> socket) {
             previousTick = currentTick;
 
             const char* data = std::to_string(c).c_str();
-            socket->Send(data, 1110);
+            socket->Send(data, sendto_network);
 
             std::cout << "\nData Sent : " << ++c << std::flush;
         }
@@ -61,7 +61,7 @@ int senderThread(std::unique_ptr<Socket> socket) {
 
 
 
-void callback(const char* ccData, int bytesRead) {
+void callback(char* ccData, int bytesRead) {
     std::cout << "\nData Received : " << ccData;
 }
 
@@ -120,11 +120,14 @@ int main() {
         return 1;
     }
 
-    std::unique_ptr<Socket> socketSend = std::make_unique<Socket>("127.0.0.1", 8000);
-    std::unique_ptr<Socket> socketReceive = std::make_unique<Socket>("127.0.0.1", 1110);
+    Network thisNetworkSender("127.0.0.1", 8000);
+    Network thisNetworkReceiver("127.0.0.1", 1110);
+
+    std::unique_ptr<Socket> socketSend = std::make_unique<Socket>(thisNetworkSender);
+    std::unique_ptr<Socket> socketReceive = std::make_unique<Socket>(thisNetworkReceiver);
 
     std::thread oTickThread(tickThread, std::ref(tick));
-    std::thread oSenderThread(senderThread, std::move(socketSend));
+    std::thread oSenderThread(senderThread, std::move(socketSend), thisNetworkReceiver);
     std::thread oReceiverThread(receiverThread, std::move(socketReceive));
 
 

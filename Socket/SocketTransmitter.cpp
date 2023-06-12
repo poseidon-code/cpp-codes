@@ -10,7 +10,7 @@
 #include "Socket.h"
 
 #define CL "\r\033[K"       // clear terminal line
-#define DATARATE 500        // data rate (in miliseconds)
+#define DATARATE 1000        // data rate (in miliseconds)
 
 
 // global signal variables
@@ -42,7 +42,14 @@ int main() {
     unsigned long previousTick = 0, currentTick = 0;
     std::thread oTickThread(tickThread, std::ref(tick));
 
-    std::unique_ptr<Socket> socket = std::make_unique<Socket>("127.0.0.1", 8000);
+    Network thisNetwork("127.0.0.1", 8000);
+    Network sendToNetwork("192.168.8.129", 1110);
+
+    // same system can have sockets bind same network to multiple ports
+    // same system can have sockets bind multiple networks to same port
+    // same system can have sockets bind multiple networks to multiple ports
+    // same system should not (but can) have multiple sockets bind to same network and same port (random port will be assigned)
+    std::unique_ptr<Socket> socket = std::make_unique<Socket>(thisNetwork);
 
     int c = 0;
 
@@ -51,11 +58,15 @@ int main() {
 
         if (currentTick >= previousTick + DATARATE) {
             previousTick = currentTick;
-
             const char* data = std::to_string(c).c_str();
-            socket->Send(data, 1110);
 
-            std::cout << CL << "Data Sent : " << ++c << std::flush;
+            // same socket can send data to same network with multiple ports
+            // same socket can send data to multiple networks with same ports
+            // same socket can send data to multiple networks with multiple ports
+            // same socket should not (but can) send data to same networks with same ports (this causes duplicate data transmission)
+            int bytes_sent = socket->Send(data, sendToNetwork);
+
+            std::cout << CL << "Data Sent : " << (bytes_sent > 0 ? ++c : c) << std::flush;
         }
     } std::cout << std::endl;
 
