@@ -14,28 +14,6 @@ set(LIBSOCKET_SOURCES src/Socket.cpp)
 set(LIBSOCKET_INCLUDE_DIRECTORIES include)
 
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    # libSocket.a
-    add_library(Socket_static STATIC ${LIBSOCKET_SOURCES})
-    target_include_directories(Socket_static PUBLIC ${LIBSOCKET_INCLUDE_DIRECTORIES})
-    set_target_properties(
-        Socket_static
-        PROPERTIES 
-        OUTPUT_NAME Socket
-    )
-
-    # libSocket.so
-    add_library(Socket_shared SHARED ${LIBSOCKET_SOURCES})
-    target_include_directories(Socket_shared PUBLIC ${LIBSOCKET_INCLUDE_DIRECTORIES})
-    set_target_properties(
-        Socket_shared
-        PROPERTIES 
-        OUTPUT_NAME Socket
-    )
-endif()
-
-
-
 # SocketTransmitter (building with library source directly)
 add_executable(SocketTransmitter_executable 
     SocketTransmitter.cpp
