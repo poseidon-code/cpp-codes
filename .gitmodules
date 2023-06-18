@@ -1,0 +1,3 @@
+[submodule "use-git-submodules/external/Socket"]
+	path = use-git-submodules/external/Socket
+	url = git@github.com:poseidon-code/Socket.git
