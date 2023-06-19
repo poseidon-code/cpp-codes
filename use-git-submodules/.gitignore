@@ -1,0 +1,3 @@
+# better to exclude the CMake build files for the external library (submodule),
+# when building the library with `add_subdirectory()`
+build/external
