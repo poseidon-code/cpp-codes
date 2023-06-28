@@ -50,7 +50,7 @@ int senderThread(std::unique_ptr<Socket> socket, const Network& sendto_network) 
             previousTick = currentTick;
 
             const char* data = std::to_string(c).c_str();
-            socket->Send(data, sendto_network);
+            socket->Send(data, sizeof(data), sendto_network);
 
             std::cout << "\nData Sent : " << ++c << std::flush;
         }
@@ -61,7 +61,7 @@ int senderThread(std::unique_ptr<Socket> socket, const Network& sendto_network) 
 
 
 
-void callback(char* ccData, int bytesRead) {
+void callback(unsigned char* ccData, int bytesRead) {
     std::cout << "\nData Received : " << ccData;
 }
 
