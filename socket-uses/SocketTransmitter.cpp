@@ -1,15 +1,15 @@
+#include <atomic>
 #include <chrono>
 #include <csignal>
 #include <ctime>
 #include <iostream>
-#include <thread>
-#include <atomic>
-#include <string>
 #include <memory>
+#include <string>
+#include <thread>
 
 #include "Socket.h"
 
-#define CL "\r\033[K"       // clear terminal line
+#define CL "\r\033[K"        // clear terminal line
 #define DATARATE 1000        // data rate (in miliseconds)
 
 
@@ -64,7 +64,7 @@ int main() {
             // same socket can send data to multiple networks with same ports
             // same socket can send data to multiple networks with multiple ports
             // same socket should not (but can) send data to same networks with same ports (this causes duplicate data transmission)
-            int bytes_sent = socket->Send(data, sendToNetwork);
+            int bytes_sent = socket->Send(data, sizeof(data), sendToNetwork);
 
             std::cout << CL << "Data Sent : " << (bytes_sent > 0 ? ++c : c) << std::flush;
         }

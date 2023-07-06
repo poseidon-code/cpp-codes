@@ -28,7 +28,7 @@ void handleInterrupt(int signal) {
 }
 
 
-void callback(char* ccData, int bytesRead) {
+void callback(unsigned char* ccData, int bytesRead) {
      std::cout << "\r\033[K" << "Data Received : " << ccData << std::flush;
 }
 
