@@ -45,7 +45,9 @@ int main() {
     unsigned long previousTick = 0, currentTick = 0;
     std::thread oTickThread(tickThread, std::ref(tick));
 
-    std::unique_ptr<Socket> socket = std::make_unique<Socket>("127.0.0.1", 8000);
+    Network thisNetwork("127.0.0.1", 8000);
+    Network sendtoNetwork("127.0.0.1", 1110);
+    std::unique_ptr<Socket> socket = std::make_unique<Socket>(thisNetwork);
 
     int c = 0;
 
@@ -56,7 +58,7 @@ int main() {
             previousTick = currentTick;
 
             const char* data = std::to_string(c).c_str();
-            socket->Send(data, 1110);
+            socket->Send(data, sizeof(data), sendtoNetwork);
 
             std::cout << CL << "Data Sent : " << ++c << std::flush;
         }
