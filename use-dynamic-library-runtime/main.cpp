@@ -57,13 +57,23 @@ int main() {
         return 1;
     }
 
-    // declare type of the Constructor of 'Socket' library
-    typedef Socket* (*SocketConstructor)(const char* ccIP, unsigned short usPort);
-    // point to the Constructor in the dynamic library
-    SocketConstructor fpSocketConstructor = reinterpret_cast<SocketConstructor>(dlsym(libSocket, "Constructor"));
-    // call that constructor to create a new Socket object
-    Socket* pSocket = fpSocketConstructor("127.0.0.1", 8000);
+    // declare type of the NetworkConstructor of 'Socket' library
+    typedef Network (*NetworkConstructor)(const char* ccIP, const unsigned short int cusiPort);
+    // point to the NetworkConstructor in the dynamic library
+    NetworkConstructor fpNetworkConstructor = reinterpret_cast<NetworkConstructor>(dlsym(libSocket, "NetworkConstructor"));
 
+    // declare type of the SocketConstructor of 'Socket' library
+    typedef Socket* (*SocketConstructor)(const Network& network);
+    // point to the SocketConstructor in the dynamic library
+    SocketConstructor fpSocketConstructor = reinterpret_cast<SocketConstructor>(dlsym(libSocket, "SocketConstructor"));
+
+
+    // call that NetworkConstructor to create a new Network object
+    Network thisNetwork = fpNetworkConstructor("127.0.0.1", 8000);
+    Network sendtoNetwork = fpNetworkConstructor("127.0.0.1", 1110);
+
+    // call that SocketConstructor to create a new Socket object
+    Socket* pSocket = fpSocketConstructor(thisNetwork);
     // (optional) wrapping with `unique_ptr` for modern resource management
     std::unique_ptr<Socket, void (*)(Socket*)> socket(pSocket, [](Socket* ptr) { delete ptr; });
 
@@ -77,7 +87,7 @@ int main() {
             previousTick = currentTick;
 
             const char* data = std::to_string(c).c_str();
-            socket->Send(data, 1110);
+            socket->Send(data, sizeof(data), sendtoNetwork);
 
             std::cout << CL << "Data Sent : " << ++c << std::flush;
         }
