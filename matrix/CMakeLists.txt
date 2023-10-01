@@ -4,5 +4,6 @@ project(run)
 set(CXX_STANDARD 20)
 set(CXX_STANDARD_REQUIRED ON)
 
-add_executable(1D_super_sampling 1D/super_sampling.cpp)
-add_executable(interpolation interpolation.cpp)
+# add_executable(1D_super_sampling 1D/super_sampling.cpp)
+add_executable(1D_patch 1D/patch.cpp)
+# add_executable(interpolation interpolation.cpp)
