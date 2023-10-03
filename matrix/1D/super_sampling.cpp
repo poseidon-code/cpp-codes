@@ -23,7 +23,7 @@ std::vector<T> sups(const std::vector<T>& matrix, const size_t& m, const size_t&
     const size_t sups_n = n * sups_factor - sups_factor + 1; 
     const size_t sups_mn = sups_m * sups_n;
 
-    std::vector<T> sups_matrix(sups_mn, 0);
+    std::vector<T> sups_matrix;
 
     for (int i = 0; i < sups_m; ++i) {
         for (int j = 0; j < sups_n; ++j) {
@@ -43,7 +43,7 @@ std::vector<T> sups(const std::vector<T>& matrix, const size_t& m, const size_t&
                 u * v * matrix[(matrix_r + 1) * n + (matrix_c + 1)]
             );
 
-            sups_matrix[i * sups_n + j] = interpolated_value;
+            sups_matrix.push_back(interpolated_value);
         }
     }
 
