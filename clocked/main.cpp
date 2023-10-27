@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stop_token>
 #include <thread>
-
+#include <mutex>
 
 
 // signal variables
@@ -29,15 +29,26 @@ void ticker(std::stop_token stop) {
 }
 
 
+// global mutext for synchronisation
+std::mutex global_mutex;
 
 
-int expensive_operation() {
+
+// the maximum number of threads detached and active every second can be calculated by : 
+// (probable maximum time the expensive operation takes / clock rate) * 10^x units
+// where the time measurement units must be respected 
+// i.e. for this implementation - (100 ms / 40 ms) * 1000 ms (1s = 100ms) = 2500 threads maximum at worst case
+// e.g. (4 ms / 40 ms) * 1000 ms = 100 threads maximum at worst case
+int expensive_operation(unsigned long long int count) {
+    // synchorise data/execution between detached threads
+    std::lock_guard<std::mutex> lg(global_mutex);
+
     // simulating time expensive operation
-    int wait = std::rand() % 1000 + 3000; // wait atleast: <random> milliseconds + 3 second
+    int wait = std::rand() % 100; // wait atleast: <random> milliseconds
     std::this_thread::sleep_for(std::chrono::milliseconds(wait));
 
     // "actual" time expensive operation
-    std::cout << tick.load(std::memory_order_relaxed) << "\n";
+    std::cout << tick.load(std::memory_order_relaxed) << " : " << count << "\n";
     
     // the operation should return to destroy the thread
     return EXIT_SUCCESS;
@@ -54,12 +65,15 @@ int main() {
     std::jthread ticker_thread(ticker);
 
 
+    unsigned long long int count = 0;
+
     while (!sSIGINT.load(std::memory_order_relaxed)) {
+        count++;
+
         // call the time expensive operation on a seperate thread and detach it
         // the thread will be destroyed after completion (both successfull & failed) of the operation
-        std::jthread(expensive_operation).detach();
+        std::jthread(expensive_operation, count).detach();
 
-        // handles busy-waiting
         // handles clocked execution of the operation irrespective of the time taken by the operation independently
         // i.e. whatever may the time the operation takes, it will be atleast 40 milliseconds apart from the previous execution of the same operation
         std::this_thread::sleep_for(std::chrono::milliseconds(40));
