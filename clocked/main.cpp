@@ -2,9 +2,9 @@
 #include <chrono>
 #include <csignal>
 #include <iostream>
+#include <mutex>
 #include <stop_token>
 #include <thread>
-#include <mutex>
 
 
 // signal variables
@@ -29,22 +29,25 @@ void ticker(std::stop_token stop) {
 }
 
 
-// global mutext for synchronisation
-std::mutex global_mutex;
 
+
+std::mutex global_mutex; // global mutex for synchronisation
+const unsigned short int CLOCK_RATE = 40; // milliseconds
+const unsigned short int SIMULATED_OPERATION_COMPLETION_TIME = 100; // milliseconds
 
 
 // the maximum number of threads detached and active every second can be calculated by : 
 // (probable maximum time the expensive operation takes / clock rate) * 10^x units
+// i.e. (`SIMULATED_OPERATION_COMPLETION_TIME` milliseconds / `CLOCK_RATE` milliseconds) * 1000 milliseconds
 // where the time measurement units must be respected 
-// i.e. for this implementation - (100 ms / 40 ms) * 1000 ms (1s = 100ms) = 2500 threads maximum at worst case
-// e.g. (4 ms / 40 ms) * 1000 ms = 100 threads maximum at worst case
+// i.e. for this implementation - (100 ms / 40 ms) * 1000 ms (1s = 1000ms) = 2500 threads maximum (worst case) every second
+// e.g. (4 ms / 40 ms) * 1000 ms = 100 threads maximum (worst case) every second
 int expensive_operation(unsigned long long int count) {
     // synchorise data/execution between detached threads
     std::lock_guard<std::mutex> lg(global_mutex);
 
     // simulating time expensive operation
-    int wait = std::rand() % 100; // wait atleast: <random> milliseconds
+    int wait = std::rand() % SIMULATED_OPERATION_COMPLETION_TIME; // wait atleast: <random> milliseconds
     std::this_thread::sleep_for(std::chrono::milliseconds(wait));
 
     // "actual" time expensive operation
@@ -76,7 +79,7 @@ int main() {
 
         // handles clocked execution of the operation irrespective of the time taken by the operation independently
         // i.e. whatever may the time the operation takes, it will be atleast 40 milliseconds apart from the previous execution of the same operation
-        std::this_thread::sleep_for(std::chrono::milliseconds(40));
+        std::this_thread::sleep_for(std::chrono::milliseconds(CLOCK_RATE));
     }
 
     // an infinite loop on a different thread can be stopped using stop tokens
