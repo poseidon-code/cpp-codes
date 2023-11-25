@@ -6,7 +6,7 @@
 
 
 template <typename T>
-void print(const std::vector<T>& a, const size_t& m, const size_t& n) {
+void print(const std::vector<T>& a, const size_t m, const size_t n) {
     for (size_t i = 0; i < m; i++) {
         for (size_t j = i*n; j < i*n + n; j++) {
             std::cout.precision(8);
@@ -18,7 +18,7 @@ void print(const std::vector<T>& a, const size_t& m, const size_t& n) {
 
 
 template <typename T>
-std::vector<T> subs(const std::vector<T>& matrix, const size_t& m, const size_t& n, const unsigned int subs_factor) {
+std::vector<T> subs(const std::vector<T>& matrix, const size_t m, const size_t n, const unsigned int subs_factor) {
     const size_t subs_m = m / subs_factor;
     const size_t subs_n = n / subs_factor; 
     const size_t subs_mn = subs_m * subs_n;
