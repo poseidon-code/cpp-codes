@@ -64,7 +64,6 @@ int main() {
     std::vector<int> matrix(mn, 0);
     std::iota(matrix.begin(), matrix.end(), 0);
     print(matrix, m, n);
-    std::cout << "\n";
 
     size_t radius = 3;
     size_t center_index = 55;
