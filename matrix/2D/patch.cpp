@@ -63,9 +63,8 @@ int main() {
     const size_t m = 10, n = 10, mn = m*n;
     
     std::vector<std::vector<int>> matrix(m, std::vector<int>(n, 0));
-    for (int i = 0; i < m; i++) for (int j = 0; j < n; j++) matrix[i][j] = m * i + j;
+    for (int i = 0; i < m; i++) for (int j = 0; j < n; j++) matrix[i][j] = i*n + j + 1;
     print(matrix);
-    std::cout << "\n";
 
     size_t radius = 3;
     size_t center_index = 55;
