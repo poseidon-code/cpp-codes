@@ -8,6 +8,8 @@ add_executable(1D_super_sampling 1D/super_sampling.cpp)
 add_executable(1D_sub_sampling 1D/sub_sampling.cpp)
 add_executable(1D_patch 1D/patch.cpp)
 
+add_executable(2D_super_sampling 2D/super_sampling.cpp)
+add_executable(2D_sub_sampling 2D/sub_sampling.cpp)
 add_executable(2D_patch 2D/patch.cpp)
 
 add_executable(interpolation interpolation.cpp)
