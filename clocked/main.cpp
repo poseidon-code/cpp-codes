@@ -2,18 +2,19 @@
 #include <chrono>
 #include <csignal>
 #include <iostream>
-#include <mutex>
 #include <stop_token>
 #include <thread>
 
 
 // signal variables
-std::atomic<bool> sSIGINT = false;
+volatile sig_atomic_t sigint = 0;
 
 // handle interrupt signals
 void handle_interrupt(int signal) {
-    if (signal == SIGINT)
-        sSIGINT.store(true, std::memory_order_relaxed);
+    switch (signal) {
+        case SIGINT: sigint = 1; break;
+        default: sigint = 1; break;
+    }
 }
 
 // independent thread for setting clock ticks
@@ -31,30 +32,17 @@ void ticker(std::stop_token stop) {
 
 
 
-std::mutex global_mutex; // global mutex for synchronisation
 const unsigned short int CLOCK_RATE = 40; // milliseconds
 const unsigned short int SIMULATED_OPERATION_COMPLETION_TIME = 100; // milliseconds
 
 
-// the maximum number of threads detached and active every second can be calculated by : 
-// (probable maximum time the expensive operation takes / clock rate) * 10^x units
-// i.e. (`SIMULATED_OPERATION_COMPLETION_TIME` milliseconds / `CLOCK_RATE` milliseconds) * 1000 milliseconds
-// where the time measurement units must be respected 
-// i.e. for this implementation - (100 ms / 40 ms) * 1000 ms (1s = 1000ms) = 2500 threads maximum (worst case) every second
-// e.g. (4 ms / 40 ms) * 1000 ms = 100 threads maximum (worst case) every second
-int expensive_operation(unsigned long long int count) {
-    // synchorise data/execution between detached threads
-    std::lock_guard<std::mutex> lg(global_mutex);
-
+void expensive_operation(unsigned long long int count) {
     // simulating time expensive operation
     int wait = std::rand() % SIMULATED_OPERATION_COMPLETION_TIME; // wait atleast: <random> milliseconds
     std::this_thread::sleep_for(std::chrono::milliseconds(wait));
 
     // "actual" time expensive operation
     std::cout << tick.load(std::memory_order_relaxed) << " : " << count << "\n";
-    
-    // the operation should return to destroy the thread
-    return EXIT_SUCCESS;
 }
 
 
@@ -70,16 +58,18 @@ int main() {
 
     unsigned long long int count = 0;
 
-    while (!sSIGINT.load(std::memory_order_relaxed)) {
+    while (!sigint) {
+        auto next_clock = std::chrono::steady_clock::now() + std::chrono::milliseconds(CLOCK_RATE);
         count++;
 
-        // call the time expensive operation on a seperate thread and detach it
-        // the thread will be destroyed after completion (both successfull & failed) of the operation
-        std::jthread(expensive_operation, count).detach();
+        // call the time expensive operation
+        expensive_operation(count);
 
-        // handles clocked execution of the operation irrespective of the time taken by the operation independently
-        // i.e. whatever may the time the operation takes, it will be atleast 40 milliseconds apart from the previous execution of the same operation
-        std::this_thread::sleep_for(std::chrono::milliseconds(CLOCK_RATE));
+        // handles clocked execution of the operation respecting the time taken by the operation (i.e. ensures synchronisation)
+        // next execution will be always <CLOCK_RATE> time-units apart from the previous execution
+        // if the current execution takes more than <CLOCK_RATE> time-units, then it will call the next execution without waiting, 
+        // after finishing the current execution (synchronisation)
+        std::this_thread::sleep_until(next_clock);
     }
 
     // an infinite loop on a different thread can be stopped using stop tokens
