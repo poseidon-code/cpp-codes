@@ -36,18 +36,9 @@ public:
     
     DataType& data() { return this->user_data; }
     const DataType& data() const noexcept { return this->user_data; }
-
-    std::ostream& operator<<(std::ostream& os, const std::stacktrace& backtrace) {
-        for (auto i = backtrace.begin(); i != (backtrace.end()-3); ++i) {
-            od << i->source_file() << "(" << i->source_line() << ") : " << i->description() << "\n";
-        }
-        return os;
-    }
 };
 
-
-template<typename CharT, typename Traits>
-std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const std::source_location& location) {
+std::ostream& operator<<(std::ostream& os, const std::source_location& location) {
     os  << location.file_name() << "("
         << location.line() << ":"
         << location.column() << ") function `"
@@ -68,7 +59,7 @@ int main() {
     try {
         throw UserException("user already registered", User{1, "poseidon"});
     } catch(UserException& e) {
-        std::cerr << "[" << e.where() << "] ";
+        std::cerr << "[" << e.where() << "] : ";
         std::cerr << "failed to create user with ID (" << e.data().id << ") - " << e.what() << "\n";
         std::cerr << e.stack();
     }
