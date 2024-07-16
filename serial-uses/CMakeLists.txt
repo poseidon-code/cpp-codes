@@ -15,3 +15,6 @@ target_include_directories(SerialTransmitter PUBLIC ${LIBSERIAL_INCLUDE_DIRECTOR
 
 add_executable(SerialReceiver SerialReceiver.cpp ${LIBSERIAL_SOURCES})
 target_include_directories(SerialReceiver PUBLIC ${LIBSERIAL_INCLUDE_DIRECTORIES})
+
+add_executable(SerialThreadedReceiver SerialThreadedReceiver.cpp ${LIBSERIAL_SOURCES})
+target_include_directories(SerialThreadedReceiver PUBLIC ${LIBSERIAL_INCLUDE_DIRECTORIES})
