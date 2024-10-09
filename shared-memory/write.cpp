@@ -1,7 +1,9 @@
-#include <thread>
 #include <chrono>
+#include <cstring>
+#include <memory>
+#include <thread>
 
-#include "Memory.hpp"
+#include "SharedMemory.hpp"
 
 int main() {
     struct Data {
@@ -9,8 +11,8 @@ int main() {
         char name[20];
     };
 
-    SharedMemory<Data> data_shm("/test-shm-data", true);
-    Data* d = data_shm.Map();
+    SharedMemory<Data> data_shm("/test-shm-data", true, false);
+    std::unique_ptr<Data, decltype(data_shm.GetDeleter())> d(data_shm.Map(), data_shm.GetDeleter());
 
     for (int i=0; i<100; i++) {
         d->id = i;
@@ -19,8 +21,6 @@ int main() {
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
-
-    data_shm.Unmap(d);
 
     return 0;
 }
